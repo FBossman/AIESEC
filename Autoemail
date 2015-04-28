@@ -1,4 +1,5 @@
 //Contact Fahim Rahman at fahim2.rahman@aiesec.net for more info, help, questions, or anything else!
+//Last update: 27 April 2015
 
  var ss = SpreadsheetApp.getActiveSpreadsheet();
  var sheet = ss.getSheets()[0];
