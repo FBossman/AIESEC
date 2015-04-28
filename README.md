@@ -1,6 +1,7 @@
 # AIESEC-autoemail
-# Autoemail from gmail
-# contact Fahim Rahman (fahim2.rahman@aiesec.net) for info, help, questions, or whatever you want :)
+Autoemail from gmail
+Select "raw" on the top right to get a better view.
+contact Fahim Rahman (fahim2.rahman@aiesec.net) for info, help, questions, or whatever you want :)
 
  var ss = SpreadsheetApp.getActiveSpreadsheet();
  var sheet = ss.getSheets()[0];
