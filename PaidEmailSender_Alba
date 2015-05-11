@@ -1,0 +1,65 @@
+//PaidEmailSender_Alba: Sends a 1st email to unpaid members, and a 2nd email to members who still haven't paid.
+//Contact Fahim Rahman at fahim2.rahman@aiesec.net for more info, help, questions, or anything else!
+//Last update: 27 April 2015
+//Made upon request :)
+//Sends a 1st email to unpaid members, and a 2nd email to members who still haven't paid
+
+ var ss = SpreadsheetApp.getActiveSpreadsheet();
+ var sheet = ss.getSheets()[0];
+
+ // This logs the value in the very last cell of this sheet
+ var lastRow = sheet.getLastRow();
+ var lastColumn = sheet.getLastColumn();
+ var lastCell = sheet.getRange(lastRow, lastColumn);
+ Logger.log(lastCell.getValue());
+
+ var EMAIL_SENT = "EMAIL_SENT";
+ var Yes = "Yes"
+ var No = "No"
+ 
+ var currentdate = new Date(); 
+ var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"  //You have to +1 because Javascript is stupid beyond reason.
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+
+function sendPayEMail() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var startRow = 2;  // First row of data to process
+  var numRows = lastRow;   // Number of rows to process = the last row
+  var numColumns = lastColumn
+  // Fetch the range of cells
+  var dataRange = sheet.getRange(startRow, 1, numRows, numColumns)
+  
+  sheet.getrange
+  // Fetch values for each row in the Range.
+  var data = dataRange.getValues();
+  for (var i = 0; i < data.length; ++i) {
+    var row = data[i];
+    var emailAddress = row[3];  // 4th column
+    var firstname = row[1]; // 2nd column
+    var message1 = ("Payment message 1")
+    var message2 = ("Payment message 2")
+    var emailSent1 = row[5];     // 6th column
+    var emailSent2 = row[7];
+    var Paid = row[4]
+    if (Paid != Yes && emailSent1 == EMAIL_SENT) {     //send message2 still if unpaid
+      var subject = "Payment 2";
+      MailApp.sendEmail(emailAddress, subject, message2);
+      sheet.getRange(startRow + i, 8).setValue(EMAIL_SENT);
+      sheet.getRange(startRow + i, 9).setValue(datetime);
+      // Update cells immediately
+    }
+      SpreadsheetApp.flush();
+    if (Paid != Yes && emailSent1 != EMAIL_SENT) { //Send message1 if unpaid
+      var subject = "Payment 1";
+      MailApp.sendEmail(emailAddress, subject, message1);
+      sheet.getRange(startRow + i, 6).setValue(EMAIL_SENT);
+      sheet.getRange(startRow + i, 7).setValue(datetime);
+      // Update cells immediately
+      SpreadsheetApp.flush();
+    }
+  }
+}
